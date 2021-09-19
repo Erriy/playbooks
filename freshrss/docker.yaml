@@ -1,0 +1,9 @@
+---
+- hosts: '{{ hosts }}'
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: run docker container
+      shell:
+        cmd: docker run -d --name={{ name | default('freshrss') }} -p {{ port | default(80) }}:80 freshrss/freshrss
