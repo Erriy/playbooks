@@ -24,4 +24,4 @@
 
     - name: run docker container
       shell:
-        cmd: docker run -d --restart=always --name={{ name | default('freshrss') }} -v /root/freshrss/data/:/var/www/FreshRSS/data/ -v /root/freshrss/extensions/:/var/www/FreshRSS/extensions/ -p {{ port | default(80) }}:80 freshrss/freshrss
+        cmd: docker run -d --restart=always --name={{ name | default('freshrss') }} -v /root/freshrss/data/:/var/www/FreshRSS/data/ -v /root/freshrss/extensions/:/var/www/FreshRSS/extensions/ -p {{ port | default(80) }}:80 -e CRON_MIN='*/1' freshrss/freshrss
