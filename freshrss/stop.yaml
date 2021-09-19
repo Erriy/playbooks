@@ -1,0 +1,19 @@
+---
+- hosts: '{{ hosts }}'
+  # become: yes
+  # become_method: sudo
+  # become_user: root
+  tasks:
+    - name: stop docker container
+      shell:
+        cmd: docker stop {{ name | default('freshrss') }}; docker container rm {{ name | default('freshrss') }}
+
+    - name: packup data
+      shell:
+        chdir: /root/
+        cmd: tar vzcf /root/freshrss_data.tar.gz freshrss
+
+    - name: backup data
+      fetch:
+        src: /root/freshrss_data.tar.gz
+        dest: ./backup/

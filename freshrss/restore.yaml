@@ -1,0 +1,23 @@
+---
+- hosts: '{{ hosts }}'
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    backup: ./backup/{{ inventory_hostname }}/root/freshrss_data.tar.gz
+  tasks:
+    - name: check backup file
+      local_action: stat path='{{ backup }}'
+      register: result
+
+    - name: copy backup file to server
+      copy:
+        src: '{{ backup }}'
+        dest: /root/freshrss_data.tar.gz
+      when: result.stat.exists
+
+    - name: extract backup file
+      shell:
+        chdir: /root/
+        cmd: tar vxf /root/freshrss_data.tar.gz
+      when: result.stat.exists
