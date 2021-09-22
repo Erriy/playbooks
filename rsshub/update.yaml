@@ -1,0 +1,7 @@
+---
+- hosts: 'rsshub'
+  tasks:
+    - name: update and restart rsshub
+      shell:
+        chdir: /root/rsshub/
+        cmd: docker-compose down && docker pull diygod/rsshub && docker-compose up -d
